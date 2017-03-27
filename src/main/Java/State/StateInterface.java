@@ -1,5 +1,6 @@
 package State;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -9,4 +10,5 @@ public interface StateInterface {
     public List<StateInterface> expand();
     public boolean isFinal();
     public void print();
+    public Object getRepresentation();
 }

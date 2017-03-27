@@ -107,6 +107,11 @@ public class SudokuState implements StateInterface {
         }
     }
 
+    @Override
+    public Object getRepresentation() {
+        return this.representation;
+    }
+
     public ArrayList<Integer> getPossibleValues(Integer line,Integer column){
         ArrayList<Integer> possibleValue = new ArrayList<>();
         for(Integer i=0;i<n;i++)
@@ -123,19 +128,22 @@ public class SudokuState implements StateInterface {
         ArrayList<Integer> possibleValue = new ArrayList<>();
         for(Integer i=0;i<n;i++)
             possibleValue.add(i+1);
-        impossibleLinesValues.get(pair.getKey()).forEach(possibleValue::remove);
-        impossibleColumnsValues.get(pair.getValue()).forEach(possibleValue::remove);
-        impossibleBoxValues.get(computeBoxIndex(pair.getKey(),pair.getValue())).forEach(possibleValue::remove);
-        for (Integer poss : possibleValue) {
-            SudokuState state = new SudokuState(this);
-            state.impossibleColumnsValues.get(pair.getValue()).add(poss);
-            state.impossibleLinesValues.get(pair.getKey()).add(poss);
-            state.impossibleBoxValues.get(computeBoxIndex(pair.getKey(),pair.getValue())).add(poss);
-            ArrayList<Integer> line = state.representation.get(pair.getKey());
-            line.set(pair.getValue(),poss);
-            state.representation.set(pair.getKey(),line);
-            expandedState.add(state);
+        if(null != pair){
+            impossibleLinesValues.get(pair.getKey()).forEach(possibleValue::remove);
+            impossibleColumnsValues.get(pair.getValue()).forEach(possibleValue::remove);
+            impossibleBoxValues.get(computeBoxIndex(pair.getKey(),pair.getValue())).forEach(possibleValue::remove);
+            for (Integer poss : possibleValue) {
+                SudokuState state = new SudokuState(this);
+                state.impossibleColumnsValues.get(pair.getValue()).add(poss);
+                state.impossibleLinesValues.get(pair.getKey()).add(poss);
+                state.impossibleBoxValues.get(computeBoxIndex(pair.getKey(),pair.getValue())).add(poss);
+                ArrayList<Integer> line = state.representation.get(pair.getKey());
+                line.set(pair.getValue(),poss);
+                state.representation.set(pair.getKey(),line);
+                expandedState.add(state);
+            }
         }
+
         return expandedState;
     }
 

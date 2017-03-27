@@ -14,12 +14,23 @@ public class CLI {
         Sudoku sudoku = null;
         while (true){
             System.out.println("Introdu lungime laturii sau -1 daca doresti sa iesi:");
-            n = sc.nextInt();
-            if(n == -1)
-                break;
-            Integer rad = (int) Math.sqrt(n);
+            cmd = sc.nextLine();
+            if(cmd.equals("-1"))
+                return;
+
+            try{
+                n = Integer.parseInt(cmd);
+            }
+            catch (Exception e){
+                System.out.println("Nu ai introdus o dimensiune corecta.");
+                continue;
+            }
+            Integer rad  = (int) Math.sqrt(Integer.parseInt(cmd));
+
+
             if(rad * rad != n){
                 System.out.println("Nu ai introdus o dimensiune corecta.");
+                continue;
             }
             try {
                 sudoku = new Sudoku(n,System.in);

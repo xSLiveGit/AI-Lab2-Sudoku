@@ -40,7 +40,7 @@ public class Sudoku {
         this.state = st;
     }
 
-    private Function<StateInterface,Integer> getCostFunction(){
+    public Function<StateInterface,Integer> getCostFunction(){
         return new Function<StateInterface, Integer>() {
             @Override
             public Integer apply(StateInterface stateInterface) {

@@ -5,6 +5,7 @@ import com.google.common.collect.HashMultimap;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Created by Sergiu on 3/25/2017.
@@ -51,15 +52,32 @@ public class SudokuState implements StateInterface {
             throw new Exception("N is not k^2.");
         return rad;
     }
+//
+//    public Pair<Integer,Integer> getNextPositionToExpand(){
+//        for(Integer i=0;i<n;i++){
+//            for(Integer j=0;j<n;j++){
+//                if(representation.get(i).get(j).equals(0))
+//                    return new Pair<>(i,j);
+//            }
+//        }
+//        return null;
+//    }
+//
+
 
     public Pair<Integer,Integer> getNextPositionToExpand(){
+        Pair<Integer,Integer> pair = null;
+        Integer points = 999999;
         for(Integer i=0;i<n;i++){
             for(Integer j=0;j<n;j++){
-                if(representation.get(i).get(j).equals(0))
-                    return new Pair<>(i,j);
+                Integer localPoints = getPossibleValues(i,j).size();
+                if(representation.get(i).get(j).equals(0) && localPoints < points) {
+                    pair = new Pair<>(i, j);
+                    points = localPoints;
+                }
             }
         }
-        return null;
+        return pair;
     }
 
     public SudokuState(Integer n, ArrayList<ArrayList<Integer>> representation) throws Exception {
